@@ -12,6 +12,7 @@
   <table class="table mb-0">
     <thead>
       <tr>
+        <th>FileName</th>
         <th>Download</th>
         <th>Delete</th>
         <th>Update</th>
@@ -20,6 +21,11 @@
     <tbody>
       {% for file in files %}
         <tr>
+          <td>
+            <h2>{{file.UploadedFile}}</h2>
+
+              </a>
+          </td>
             <td>
             <a href="{{ file.UploadedFile.url }}" class="btn btn-primary btn-sm" target="_blank">
               Download File

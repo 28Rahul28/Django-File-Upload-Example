@@ -8,10 +8,11 @@ from django.shortcuts import redirect
 import os
 from django.views import View
 import datetime
-
+from django.core import signing
+from django.contrib import messages
 
 # Create your views here.
-messages = []
+messagesv = []
 
 class Messages(object):
     def __init__(self,message):
@@ -29,7 +30,8 @@ def delete_file(request, pk):
 
         time = datetime.datetime.now()
         message = name + " deleted at " + str(time)
-        messages.append(Messages(message))
+        messages.success(request, message)
+        messagesv.append(Messages(message))
     return redirect('file_list')
 
 
@@ -50,11 +52,13 @@ class FileUploadView(CreateView,View,SuccessMessageMixin):
     template_name = 'uploadfile.html'
     def post(self, request, *args, **kwargs):
         file = FileData(UploadedFile=request.FILES['UploadedFile'])
+        file.encrypted_data = signing.dumps(file.UploadedFile.name)
         file.save()
         name = os.path.basename(file.UploadedFile.name)
         time = datetime.datetime.now()
-        message = name+" created at "+ str(time)
-        messages.append(Messages(message))
+        message = name+" created at "+ str(time)+"\n Encrypted Data="+file.encrypted_data
+        messages.success(request, message)
+        messagesv.append(Messages(message))
         return redirect('file_list')
 
 
@@ -80,13 +84,16 @@ class FileUpdateview(UpdateView):
 
     def get_success_url(self, **kwargs):
         file = FileData.objects.get(pk=self.object.pk)
+        file.encrypted_data = signing.dumps(file.UploadedFile.name)
+        file.save()
         time = datetime.datetime.now()
         nameprev = str(self.message)
         print(nameprev)
 
         namenow = os.path.basename(file.UploadedFile.name)
-        message = nameprev + " updated to " + namenow + " at " + str(time)
-        messages.append(Messages(message))
+        message = nameprev + " updated to " + namenow + " at " + str(time) +"\nEncrypted Data="+file.encrypted_data
+        messages.success(self.request,message)
+        messagesv.append(Messages(message))
         return reverse_lazy('file_list')
 
 
@@ -97,7 +104,7 @@ class FileUpdateview(UpdateView):
 
 def NotificationListView(request):
 
-    return render(request, 'notifications.html', {'messages': messages})
+    return render(request, 'notifications.html', {'messages': messagesv})
 
 
 

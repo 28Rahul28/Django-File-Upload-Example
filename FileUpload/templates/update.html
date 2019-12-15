@@ -2,11 +2,11 @@
 
 
 {% block content %}
-  <h2>Upload File</h2>
+  <h2>Update File</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
       <input type="submit" value="{{ file.pk }}">
-    <button type="submit" class="btn btn-primary">Upload File</button>
+    <button type="submit" class="btn btn-primary">Update File</button>
   </form>
 {% endblock %}
