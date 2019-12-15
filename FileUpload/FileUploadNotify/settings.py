@@ -40,9 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'FileUploadNotify.main',
-    'simple_history',
-    'easyaudit',
-
+    
 ]
 
 MIDDLEWARE = [
