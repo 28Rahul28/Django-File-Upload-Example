@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<table class="table mb-0">
+    <thead>
+      <tr>
+        <th>Message</th>
+
+      </tr>
+    </thead>
+    <tbody>
+{% for message in messages %}
+
+<tr>
+
+    <td>{{ message.message}}</td>
+</tr>
+
+{% endfor %}
+    </tbody>
+    </table>
+  {% endblock %}
