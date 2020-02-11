@@ -2,7 +2,7 @@ asgiref==3.2.3
 certifi==2019.11.28
 chardet==3.0.4
 crypto==1.4.1
-Django==3.0
+Django==3.0.3
 django-easy-audit==1.1.1
 django-model-utils==4.0.0
 django-simple-history==2.8.0
